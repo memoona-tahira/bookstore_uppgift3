@@ -2,7 +2,7 @@ const sqlite = require('sqlite-async');
 const express = require('express');
 const app = express();
 app.use(express.json());
-app.listen(1000, () => console.log('Listening on http://localhost:1000/api'));
+app.listen(3000, () => console.log('Listening on http://localhost:3000/api'));
 
 app.use(function (error, req, res, next) {
   if (error) { res.json(error); }
