@@ -1,0 +1,1666 @@
+{
+	"info": {
+		"_postman_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+		"name": "Cao",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1POST",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "04a205ae-c859-4fe1-8df6-4ec265e7e300",
+								"exec": [
+									"if (!pm.environment.has(\"mockData\")) {\r",
+									"    let mockData = [\r",
+									"    {\r",
+									"        \"id\": 21,\r",
+									"        \"email\": \"aemily@email.com\"\r",
+									"    },\r",
+									"    {\r",
+									"        \"id\": 22,\r",
+									"        \"email\": \"bjohn@email.com\"\r",
+									"    },\r",
+									"    {\r",
+									"        \"id\": 23,\r",
+									"        \"email\": \"cMary@email.com\"\r",
+									"    },\r",
+									"    {\r",
+									"        \"id\": 24,\r",
+									"        \"email\": \"dchrist@email.com\"\r",
+									"    },\r",
+									"    {\r",
+									"        \"id\": 25,\r",
+									"        \"email\": \"ehong@email.ru\"\r",
+									"    },\r",
+									"    {\r",
+									"        \"id\": 26,\r",
+									"        \"email\": \"fandreson@email.com\"\r",
+									"    }\r",
+									"];\r",
+									"    pm.environment.set(\"counter\", 0);\r",
+									"    pm.environment.set(\"mockData\", JSON.stringify(mockData));\r",
+									" }\r",
+									"\r",
+									" // Reading/parsing environment variables back to local variables\r",
+									" let counter = pm.environment.get(\"counter\") / 1;\r",
+									" let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									" let {name, description} = mockData[counter];\r",
+									"\r",
+									" // Save to environment variables to use in the request\r",
+									" pm.environment.set('id', id);\r",
+									" pm.environment.set('email', email);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "3575bdc0-162d-48d9-92bd-ee3af116400b",
+								"exec": [
+									"// The response\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Add the inserted id to the mockData and save to environment\r",
+									"mockData[counter].id = response.lastID;\r",
+									"pm.environment.set('mockData', JSON.stringify(mockData));\r",
+									"\r",
+									"// Test number of changed rows\r",
+									"pm.test('one row should be changed', function(){\r",
+									"    pm.expect(response.changes).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('Create clients');\r",
+									"}\r",
+									"// Otherwise reset the counter\r",
+									"// (for the next request that will reuse the mockdata)\r",
+									"else {\r",
+									"  pm.environment.set(\"counter\", 0);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "{",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "\"id\"",
+									"value": " \"{{id}}\",",
+									"type": "text"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"{{email}}\"",
+									"type": "text"
+								},
+								{
+									"key": "}",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"email\": \"aemily@email.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"id\": 27,\r\n        \"email\": \"gjob@email.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \"id\":26,\r\n        \"date\":  \"2020-05-20 12:01:16\",\r\n        \"client_email\": \"a123@example.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \"id\":27,\r\n        \"date\":  \"2020-05-20 16:02:30\",\r\n        \"client_email\": \"b567@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \"id\":28,\r\n        \"date\":  \"2020-05-21 10:02:30\",\r\n        \"client_email\": \"d321@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \"id\":29,\r\n        \"date\":  \"2020-05-22 10:02:30\",\r\n        \"client_email\": \"e546@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \"id\":30,\r\n        \"date\":  \"2020-05-28 19:02:30\",\r\n        \"client_email\": \"f897@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":22,\"amount\":2,\"book_ISBN_nr\":\"221980226-8\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":23,\"amount\":3,\"book_ISBN_nr\":\"231986886-2\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":24,\"amount\":5,\"book_ISBN_nr\":\"24199882-6\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":25,\"amount\":1,\"book_ISBN_nr\":\"25197762-8\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"f123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/26"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/clients",
+						"description": "GET1\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines",
+						"description": "Method: POST\r\nRoute: http://localhost:3000/rest/orders\r\nBody: \r\n{\r\n  \"id\": \"{{id}}\",\r\n  \"date\": \"{{date}}\",\r\n  \"client_email\": \"{{client_email}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines",
+						"description": "03-create-orderLines\r\nMethod: POST\r\nRoute: http://localhost:3000/api/orderlines\r\nBody: \r\n{\r\n  \"id\": \"{{id}}\",\r\n  \"amount\": \"{{amount}}\",\r\n  \"book_ISBN_nr\": \"{{book_ISBN_nr}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlinesXorders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlinesXorders",
+						"description": "04-create-orderlinesXorders\r\nMethod: POST\r\nRoute: http://localhost:3000/api/orderlinesXorders\r\nBody: \r\n{\r\n  \"order_line_id\": \"{{order_line_id}}\",\r\n  \"order_id\": \"{{order_id}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/clients",
+						"description": "01-create-users\r\nMethod: POST\r\nRoute: http://localhost:3000/api/clients\r\nBody: \r\n{\r\n  \"id\": \"{{id}}\",\r\n  \"email\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients?\"client id\" =21&\"email\"=\"aemail@email.com\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clients?\"client id\" =21&\"email\"=\"aemail@email.com\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "\"client id\" ",
+									"value": "21"
+								},
+								{
+									"key": "\"email\"",
+									"value": "\"aemail@email.com\""
+								}
+							]
+						},
+						"description": "Create clients to insert SQL by POST\r\nWhat is CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients?\"client id\" =21&\"email\"=\"aemail@email.com\"",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clients?\"client id\" =21&\"email\"=\"aemily@email.com\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "\"client id\" ",
+									"value": "21"
+								},
+								{
+									"key": "\"email\"",
+									"value": "\"aemily@email.com\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clients?[=&{=&\"client id\"= 21,&\"email\"= \"aemily@email.com\"&},=&{=&\"client id\"= 22,&\"email\"= \"bjohn@email.com\"&},=&{=&\"client id\"= 23,&\"email\"= \"cMary@email.com\"&},=&{=&\"client id\"= 24,&\"email\"= \"dchrist@email.com\"&},=&{=&\"client id\"= 25,&\"email\"= \"ehong@email.ru\"&},=&{=&\"client id\"= 26,&\"email\"= \"fandreson@email.com\"&}=&]=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "[",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 21,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"aemily@email.com\""
+								},
+								{
+									"key": "},",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 22,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"bjohn@email.com\""
+								},
+								{
+									"key": "},",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 23,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"cMary@email.com\""
+								},
+								{
+									"key": "},",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 24,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"dchrist@email.com\""
+								},
+								{
+									"key": "},",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 25,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"ehong@email.ru\""
+								},
+								{
+									"key": "},",
+									"value": ""
+								},
+								{
+									"key": "{",
+									"value": ""
+								},
+								{
+									"key": "\"client id\"",
+									"value": " 26,"
+								},
+								{
+									"key": "\"email\"",
+									"value": " \"fandreson@email.com\""
+								},
+								{
+									"key": "}",
+									"value": ""
+								},
+								{
+									"key": "]",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "790e82e0-e911-47d9-bd51-2936f5122b77",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Add the insert id to the mockData and save to environment\r",
+									"mockData[counter].id = response.insertId;\r",
+									"pm.environment.set('mockData', JSON.stringify(mockData));\r",
+									"\r",
+									"// Test affectedRows\r",
+									"pm.test('affectedRows should be 1', function(){\r",
+									"    pm.expect(response.affectedRows).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('03-create-clients')\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 27, \r\n        \"email\": \"g123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":29,\"date\":\"2020-05-28 10:02:30\",\"client_email\":\"e29@example.com\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders/29"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:3000/api/clients",
+						"description": "Post clients(at least 3 different) (orders + orderLines)"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "2GET",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"fandreson@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"id\": 27,\r\n        \"email\": \"gjob@email.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"f123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \r\n        \"date\":  \"2020-05-28 19:02:30\",\r\n        \"client_email\": \"f897@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines/26"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":25,\"amount\":2,\"book_ISBN_nr\":\"25197766-6\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "854b377c-934a-4158-b3df-7e0f8e3cb629",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variable back to local variable\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Test expected length\r",
+									"pm.test('length should be equal to mock data length', function(){\r",
+									"    pm.expect(response.length).to.equal(mockData.length);\r",
+									"});\r",
+									"\r",
+									"// Test that the response data is deep equal to mockdata\r",
+									"pm.test('data in db should be same as mock data', function(){\r",
+									"    pm.expect(response).to.deep.equal(mockData);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"name\": \"{{name}}\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "854b377c-934a-4158-b3df-7e0f8e3cb629",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variable back to local variable\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Test expected length\r",
+									"pm.test('length should be equal to mock data length', function(){\r",
+									"    pm.expect(response.length).to.equal(mockData.length);\r",
+									"});\r",
+									"\r",
+									"// Test that the response data is deep equal to mockdata\r",
+									"pm.test('data in db should be same as mock data', function(){\r",
+									"    pm.expect(response).to.deep.equal(mockData);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "854b377c-934a-4158-b3df-7e0f8e3cb629",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variable back to local variable\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Test expected length\r",
+									"pm.test('length should be equal to mock data length', function(){\r",
+									"    pm.expect(response.length).to.equal(mockData.length);\r",
+									"});\r",
+									"\r",
+									"// Test that the response data is deep equal to mockdata\r",
+									"pm.test('data in db should be same as mock data', function(){\r",
+									"    pm.expect(response).to.deep.equal(mockData);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients/26",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "133ab252-e862-4032-90fd-59599e6ef29b",
+								"exec": [
+									"// The response as json\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test('no users should be left in db', function(){\r",
+									"    pm.expect(response).to.deep.equal([]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/26"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e56e1bec-9976-41af-adb1-60f353ede614",
+								"exec": [
+									"// The response\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Compare with the response from the database;\r",
+									"pm.test('data in db should equal previously written mock data', function(){\r",
+									"    pm.expect(response, counter + ' used').to.deep.equal([mockData[counter]]);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('Read clients');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e56e1bec-9976-41af-adb1-60f353ede614",
+								"exec": [
+									"// The response\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Compare with the response from the database;\r",
+									"pm.test('data in db should equal previously written mock data', function(){\r",
+									"    pm.expect(response, counter + ' used').to.deep.equal([mockData[counter]]);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('Read clients');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e56e1bec-9976-41af-adb1-60f353ede614",
+								"exec": [
+									"// The response\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Compare with the response from the database;\r",
+									"pm.test('data in db should equal previously written mock data', function(){\r",
+									"    pm.expect(response, counter + ' used').to.deep.equal([mockData[counter]]);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('Read clients');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e56e1bec-9976-41af-adb1-60f353ede614",
+								"exec": [
+									"// The response\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let counter = pm.environment.get(\"counter\") / 1;\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Compare with the response from the database;\r",
+									"pm.test('data in db should equal previously written mock data', function(){\r",
+									"    pm.expect(response, counter + ' used').to.deep.equal([mockData[counter]]);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"counter++;\r",
+									"pm.environment.set('counter', counter);\r",
+									"\r",
+									"// Run request again if more mockdata\r",
+									"if(mockData[counter]){\r",
+									"    postman.setNextRequest('Read clients');\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlinesXorders"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/clients",
+						"description": "GET. SELECT SQL. Read clients from SQL. \r\nhttp://localhost:3000/api/clients\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderLines",
+						"description": "GET. SELECT SQL. Read orders from SQL. \r\nhttp://localhost:3000/api/orders\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderLines",
+						"description": "GET. SELECT SQL. Read orderlines from SQL. \r\nhttp://localhost:3000/api/orderlines\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines",
+						"description": "GET. SELECT SQL. Read orderlines from SQL. \r\nhttp://localhost:3000/api/orderlines\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlinesXorders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlinesXorders",
+						"description": "GET. SELECT SQL. Read orderlinesXorders from SQL. \r\nhttp://localhost:3000/api/orderlines\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\":\"{{id}}\",\n\t\n\t\"email\":\"{{email}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients",
+						"description": "PUT. UPDATE SQL. Read clients from SQL. \r\nhttp://localhost:3000/api/orderlines\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "854b377c-934a-4158-b3df-7e0f8e3cb629",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variable back to local variable\r",
+									"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+									"\r",
+									"// Test expected length\r",
+									"pm.test('length should be equal to mock data length', function(){\r",
+									"    pm.expect(response.length).to.equal(mockData.length);\r",
+									"});\r",
+									"\r",
+									"// Test that the response data is deep equal to mockdata\r",
+									"pm.test('data in db should be same as mock data', function(){\r",
+									"    pm.expect(response).to.deep.equal(mockData);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "3PUT",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients?\"client id\"=21&\"email\"=\"aemily@email.com\"",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/clients?\"client id\"=21&\"email\"=\"aemily@email.com\"",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"clients"
+							],
+							"query": [
+								{
+									"key": "\"client id\"",
+									"value": "21"
+								},
+								{
+									"key": "\"email\"",
+									"value": "\"aemily@email.com\""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"id\": 27,\r\n        \"email\": \"gjob@email.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"f123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":29,\"date\":\"2020-05-28 10:02:30\",\"client_email\":\"e29@example.com\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders/29"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":25,\"amount\":2,\"book_ISBN_nr\":\"25197766-6\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines/1"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":25,\"amount\":2,\"book_ISBN_nr\":\"25197766-6\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines/1"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:3000/api/clients",
+						"description": "PUT. UPDATE SQL. Update orders from SQL. \r\nhttp://localhost:3000/api/orders\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlines",
+						"description": "PUT. UPDATE SQL. Update clients from SQL. \r\nhttp://localhost:3000/api/clients\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlinesXorders",
+						"description": "PUT. UPDATE SQL. Update orderlines from SQL. \r\nhttp://localhost:3000/api/orderlines\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlinesXorders",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:3000/api/orderlinesXorders",
+						"description": "PUT. UPDATE SQL. Update orderslineXorders from SQL. \r\nhttp://localhost:3000/api/orderslineXorders\r\n\r\nVad är CRUD? (Create, Read, Update, Delete)\r\n             SQL      http-request-method\r\nC = Create   INSERT   POST\r\nR = Read     SELECT   GET\r\nU = Update   UPDATE   PUT\r\nD = Delete   DELETE   DELETE"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "4 DELETE",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/api/clients/1",
+						"description": "get to add clients (at least 3 different)"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"id\": 27,\r\n        \"email\": \"gjob@email.com\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"f123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/27"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {   \r\n    \t\"id\":30,\r\n        \"date\":  \"2020-05-28 19:02:30\",\r\n        \"client_email\": \"f897@example.com\"\r\n    }\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders/30"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders/2"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orders",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders/4"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines/1"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "     { \"id\": 26, \r\n        \"email\": \"f123@email.com\" \r\n     }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/26"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "854b377c-934a-4158-b3df-7e0f8e3cb629",
+								"exec": [
+									"// The response as json\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test('warninCount should be 0', function(){\r",
+									"    pm.expect(response.warningCount).to.equal(0);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients/26"
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/api/clients",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:3000/api/clients/1"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
