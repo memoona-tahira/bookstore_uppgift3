@@ -1,0 +1,496 @@
+{
+	"info": {
+		"_postman_id": "f0b42657-9cad-4917-a23b-e976fac0b4f9",
+		"name": "Moona",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01-lägga-till-books",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "01a81db9-3937-4472-9f15-27fc02da5192",
+						"exec": [
+							"",
+							"if (!pm.environment.has(\"mockBooks\")) {",
+							"    let mockBooks = [",
+							"      {",
+							"        \"ISBN_nr\": \"11111111-9\",",
+							"        \"title\": \"Where the Wild Things Are\",",
+							"        \"description\": \"Where the Wild Things Are is a 1963 children's picture book by American writer and illustrator Maurice Sendak, originally published by HarperCollins.\",",
+							"        \"pages\": 56,",
+							"        \"price\": 100",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"2222222-9\",",
+							"        \"title\": \"Harry Potter and the Philosopher's Stone\",",
+							"        \"description\": \"Harry Potter and the Philosopher's Stone is a fantasy novel written by British author J. K. Rowling.\",",
+							"        \"pages\": 246,",
+							"        \"price\": 200.64",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"3333333-9\",",
+							"        \"title\": \"The Very Hungry Caterpillar\",",
+							"        \"description\": \"The Very Hungry Caterpillar is a children's picture book designed, illustrated, and written by Eric Carle, first published by the World Publishing Company in 1969, later published by Penguin Putnam.\",",
+							"        \"pages\": 22,",
+							"        \"price\": 777.64",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"44444444-9\",",
+							"        \"title\": \"The Cat in the Hat\",",
+							"        \"description\": \"The Cat in the Hat is a children's book written and illustrated by Theodor Geisel under the pen name Dr. Seuss and first published in 1957. The story centers on a tall anthropomorphic cat who wears a red and white-striped hat and a red bow tie\",",
+							"        \"pages\": 61,",
+							"        \"price\": 444.00",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"55555555-9\",",
+							"        \"title\": \"Pippi Longstocking\",",
+							"        \"description\": \"Pippi Longstocking is a Swedish children's novel by writer Astrid Lindgren, published by Rabén & Sjögren with illustrations by Ingrid Vang Nyman in 1945.\",",
+							"        \"pages\": 88,",
+							"        \"price\": 777.64",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"66666666-9\",",
+							"        \"title\": \"A Wrinkle in Time\",",
+							"        \"description\": \"A Wrinkle in Time is a young adult novel written by American author Madeleine L'Engle. First published in 1962, the book has won the Newbery Medal, the Sequoyah Book Award, the Lewis Carroll Shelf Award, and was runner-up for the Hans Christian Andersen Award.\",",
+							"        \"pages\": 261,",
+							"        \"price\": 777.64",
+							"      },",
+							"       {",
+							"        \"ISBN_nr\": \"77777777-9\",",
+							"        \"title\": \"The Giving Tree\",",
+							"        \"description\": \"The Giving Tree is an American children's picture book written and illustrated by Shel Silverstein. First published in 1964 by Harper & Row, it has become one of Silverstein’s best-known titles, and has been translated into numerous languages.\",",
+							"        \"pages\": 5754,",
+							"        \"price\": 60",
+							"      }, {",
+							"        \"ISBN_nr\": \"88888888-9\",",
+							"        \"title\": \"Brown Bear, Brown Bear, What Do You See?\",",
+							"        \"description\": \"Brown Bear, Brown Bear, What Do You See? is a children's picture book published in 1967. Written and illustrated by Bill Martin, Jr. and Eric Carle, the book is designed to help toddlers associate colors and meanings to objects.\",",
+							"        \"pages\": 100,",
+							"        \"price\": 499.99",
+							"      }",
+							"    ];",
+							"",
+							"",
+							"    pm.environment.set(\"addBooksCounter\", 0);",
+							"    pm.environment.set(\"mockBooks\", JSON.stringify(mockBooks));",
+							" }",
+							"",
+							"  // Reading/parsing environment variables back to local variables",
+							" let addBooksCounter = pm.environment.get(\"addBooksCounter\") / 1;",
+							" let mockBooks = JSON.parse(pm.environment.get(\"mockBooks\"));",
+							" let {ISBN_nr, title, description, pages, price} = mockBooks[addBooksCounter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('ISBN_nr', ISBN_nr);",
+							" pm.environment.set('title', title);",
+							" pm.environment.set('description', description);",
+							" pm.environment.set('pages', pages);",
+							" pm.environment.set('price', price);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "862b0f7b-b62b-441f-b99b-b537e1d23283",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variables back to local variables",
+							"let addBooksCounter = pm.environment.get(\"addBooksCounter\") / 1;",
+							"let mockBooks = JSON.parse(pm.environment.get(\"mockBooks\"));",
+							"",
+							"// Add the insert id to the mockBooks and save to environment",
+							"mockBooks[addBooksCounter].insertId = response.lastID;",
+							"pm.environment.set('mockBooks', JSON.stringify(mockBooks));",
+							"",
+							"console.log( JSON.parse(pm.environment.get(\"mockBooks\")));",
+							"// Test affectedRows",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.changes).to.equal(1);",
+							"});",
+							"",
+							"// Increment the counter and save to environment",
+							"addBooksCounter++;",
+							"pm.environment.set('addBooksCounter', addBooksCounter);",
+							"",
+							"// Run request again if more mockBooks",
+							"",
+							"if(mockBooks[addBooksCounter]){",
+							"    postman.setNextRequest('01-lägga-till-books')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ISBN_nr\": \"{{ISBN_nr}}\",\n  \"title\": \"{{title}}\",\n  \"description\": \"{{description}}\",\n  \"pages\": \"{{pages}}\",\n  \"price\": \"{{price}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "02-få-alla-böcker",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "66f6cedc-1a1a-4593-9f85-f8b01bee5315",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "e80cb7de-6233-4162-8a9a-89de63db0e19",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('total count must be 38', function(){",
+							"    pm.expect(response.length).to.equal(38);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ISBN_nr\": \"{{ISBN_nr}}\",\n  \"title\": \"{{title}}\",\n  \"description\": \"{{description}}\",\n  \"pages\": \"{{pages}}\",\n  \"price\": \"{{price}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "03-uppdatera-boken",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2a0f40a3-5d54-472c-9e5d-507e9bb12f14",
+						"exec": [
+							"",
+							" let randomNumber = _.random(1, 7);",
+							"",
+							" let mockBooks = JSON.parse(pm.environment.get(\"mockBooks\"));",
+							" let { ISBN_nr, title, description, pages, price, insertId} = mockBooks[randomNumber]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('ISBN_nr', ISBN_nr);",
+							" pm.environment.set('title', title);",
+							" pm.environment.set('description', description);",
+							" pm.environment.set('pages', pages);",
+							" pm.environment.set('price', 10000000);",
+							"",
+							"",
+							"pm.environment.set('book_id', insertId);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "d38e9ad4-669d-4501-89b0-19bff9f82979",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"",
+							"console.log(\"after update\");",
+							"console.log(response);",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.changes).to.equal(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ISBN_nr\": \"{{ISBN_nr}}\",\n  \"title\": \"{{title}}\",\n  \"description\": \"{{description}}\",\n  \"pages\": \"{{pages}}\",\n  \"price\": \"{{price}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books/{{book_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "04-får-senast-uppdaterad",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7c9cc5f9-20f1-4b1b-83b6-a26fa194f5aa",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe165c75-5f8a-45e7-aa14-0dfb61271f66",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"pm.test('price must be 10000000', function(){",
+							"    pm.expect(response[0].price).to.equal(10000000);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ISBN_nr\": \"{{ISBN_nr}}\",\n  \"title\": \"{{title}}\",\n  \"description\": \"{{description}}\",\n  \"pages\": \"{{pages}}\",\n  \"price\": \"{{price}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books/{{book_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "05-ta-bort-böcker",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7f618e4c-9afa-4c9d-8986-72348a2dc3ca",
+						"exec": [
+							"  console.log(\"amir\");",
+							"",
+							"",
+							"",
+							"",
+							"",
+							"  if (!pm.environment.has(\"deleteBooksCounter\")) {",
+							"      pm.environment.set(\"deleteBooksCounter\", 0);",
+							"  }",
+							"",
+							"  console.log(pm.environment.has(\"mockBooks\"));",
+							"  if (pm.environment.has(\"mockBooks\")) {",
+							"    //means running after adding books",
+							"    let deleteBooksCounter = pm.environment.get(\"deleteBooksCounter\") / 1;",
+							"    let mockBooks = JSON.parse(pm.environment.get(\"mockBooks\"));",
+							"    let { ISBN_nr, title, description, pages, price, insertId} = mockBooks[deleteBooksCounter]",
+							"    // Save to environemnt for use in query",
+							"    console.log(\"insertId\")",
+							"    console.log(insertId)",
+							"    pm.environment.set('book_id', insertId);",
+							"  }",
+							"  ",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "003f9c1b-416b-464d-ac8a-1f210521de34",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"let deleteBooksCounter = pm.environment.get(\"deleteBooksCounter\") / 1;",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.changes).to.equal(1);",
+							"});",
+							"",
+							"",
+							"deleteBooksCounter++;",
+							"pm.environment.set('deleteBooksCounter', deleteBooksCounter);",
+							"",
+							"// Run request again if more mockBooks",
+							"let mockBooks = JSON.parse(pm.environment.get(\"mockBooks\"));",
+							"if(mockBooks[deleteBooksCounter]){",
+							"    postman.setNextRequest('05-ta-bort-böcker')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/books/{{book_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books",
+						"{{book_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "06-få-alla-böcker",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "799df8f5-1c7b-4f5f-a637-1090bad48a05",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0209b34c-8e4e-4b05-8999-9738a7a32599",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('total count must be 30 after clean up', function(){",
+							"    pm.expect(response.length).to.equal(30);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"ISBN_nr\": \"{{ISBN_nr}}\",\n  \"title\": \"{{title}}\",\n  \"description\": \"{{description}}\",\n  \"pages\": \"{{pages}}\",\n  \"price\": \"{{price}}\"\n}\n\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/books",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"books"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
