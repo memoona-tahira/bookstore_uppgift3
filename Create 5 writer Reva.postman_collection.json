@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "90459d5b-05af-448a-9fe2-3ad90edcc556",
-		"name": "Create 5 writers Reva",
+		"_postman_id": "3628c556-2ade-4d68-ab54-608727808548",
+		"name": "Create 5 writer Reva",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -11,12 +11,10 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "8d54c6b3-c40c-4edc-b9db-f48c47c3fa92",
+						"id": "b1f0bba1-dd4a-4661-b113-bfdb79a8350f",
 						"exec": [
-							"// Setting mockdata and counter as environement variables\r",
-							"// Note: Environement variables can only be strings!\r",
-							"if (!pm.environment.has('mockData')) {\r",
-							"    let mockData = [\r",
+							"if (!pm.environment.has('createdWriters')) {\r",
+							"    let writersData = [\r",
 							"      {\r",
 							"        'name': 'Erik Nellson',\r",
 							"        'description': 'Absintinbiten glädjespridare.'\r",
@@ -39,14 +37,14 @@
 							"      }\r",
 							"    ];\r",
 							"    pm.environment.set('counter', 0);\r",
-							"    pm.environment.set('mockData', JSON.stringify(mockData));\r",
+							"    pm.environment.set('createdWriters', JSON.stringify(writersData));\r",
 							" }\r",
 							"\r",
 							" // Reading/parsing environment variables back to local variables\r",
 							" let counter = pm.environment.get('counter') / 1;\r",
 							" console.log(counter);\r",
-							" let mockData = JSON.parse(pm.environment.get('mockData'));\r",
-							" let {name, description} = mockData[counter];\r",
+							" let createdWriters = JSON.parse(pm.environment.get('createdWriters'));\r",
+							" let {name, description} = createdWriters[counter];\r",
 							"\r",
 							" // Save to environment variables to use in the request\r",
 							" pm.environment.set('name', name);\r",
@@ -58,18 +56,18 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "961cacb1-3038-4753-9e49-71a931da75db",
+						"id": "33c76b66-c044-4f43-9fbd-2759ca98ef22",
 						"exec": [
 							"// The response\r",
 							"let response = pm.response.json();\r",
 							"\r",
 							"// Reading/parsing environment variables back to local variables\r",
 							"let counter = pm.environment.get(\"counter\") / 1;\r",
-							"let mockData = JSON.parse(pm.environment.get(\"mockData\"));\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
 							"\r",
 							"// Add the inserted id to the mockData and save to environment\r",
-							"mockData[counter].id = response.lastID;\r",
-							"pm.environment.set('mockData', JSON.stringify(mockData));\r",
+							"createdWriters[counter].id = response.lastID;\r",
+							"pm.environment.set('createdWriters', JSON.stringify(createdWriters));\r",
 							"\r",
 							"// Test number of changed rows\r",
 							"pm.test('one row should be changed', function(){\r",
@@ -81,7 +79,7 @@
 							"pm.environment.set('counter', counter);\r",
 							"\r",
 							"// Run request again if more mockdata\r",
-							"if(mockData[counter]){\r",
+							"if(createdWriters[counter]){\r",
 							"    postman.setNextRequest('Create_5_Writers');\r",
 							"}\r",
 							"// Otherwise reset the counter\r",
