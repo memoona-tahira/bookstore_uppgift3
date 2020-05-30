@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+		"name": "Cao",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "11POST(clients)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "457ba675-7089-4f9f-9209-41caa41e607e",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let addClientsCounter = pm.environment.get(\"addClientsCounter\") / 1;\r",
+									"let mockClients = JSON.parse(pm.environment.get(\"mockClients\"));\r",
+									"\r",
+									"// Add the insert id to the mockClients and save to environment\r",
+									"mockClients[addClientsCounter].insertId = response.lastID;\r",
+									"pm.environment.set('mockClients', JSON.stringify(mockClients));\r",
+									"\r",
+									"console.log( JSON.parse(pm.environment.get(\"mockClients\")));\r",
+									"// Test affectedRows\r",
+									"pm.test('affectedRows should be 1', function(){\r",
+									"    pm.expect(response.changes).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"addClientsCounter++;\r",
+									"pm.environment.set('addClientsCounter', addClientsCounter);\r",
+									"\r",
+									"// Run request again if more mockClients\r",
+									"\r",
+									"if(mockClients[addClientsCounter]){\r",
+									"    postman.setNextRequest('01-lägga-till-Clients')\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7783f143-7338-4096-8604-9a230c1ee23a",
+								"exec": [
+									"if (!pm.environment.has(\"mockClients\")) {\r",
+									"    let mockClients = [\r",
+									"    {   \r",
+									"        \"email\": \"ochrist@email.com\" \r",
+									"    },\r",
+									"     { \r",
+									"     \t\"email\": \"phong@email.ru\" \r",
+									"     }, \r",
+									"     { \r",
+									"        \"email\": \"qandreson@email.com\" \r",
+									"     },\r",
+									"    {   \r",
+									"        \"email\": \"achrist@email.com\" \r",
+									"    }, \r",
+									"     { \r",
+									"     \t\"email\": \"bhong@email.ru\" \r",
+									"     }, \r",
+									"     { \r",
+									"        \"email\": \"candreson@email.com\" \r",
+									"     }\r",
+									"    ];\r",
+									"\r",
+									"\r",
+									"    pm.environment.set(\"addClientsCounter\", 0);\r",
+									"    pm.environment.set(\"mockClients\", JSON.stringify(mockClients));\r",
+									" }\r",
+									"\r",
+									"  // Reading/parsing environment variables back to local variables\r",
+									" let addClientsCounter = pm.environment.get(\"addClientsCounter\") / 1;\r",
+									" let mockClients = JSON.parse(pm.environment.get(\"mockClients\"));\r",
+									" let {email} = mockClients[addClientsCounter]\r",
+									" // Save to environemnt for use in query\r",
+									" pm.environment.set('email', email);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "12POST(orders)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/orders",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "287f697d-d1eb-434f-a943-2e75adaca0be",
+								"exec": [
+									"if (!pm.environment.has(\"mockOrders\")) {\r",
+									"    let mockOrders = [\r",
+									"      {\"date\":\"2019-05-28 20:33:29\",\"client_email\":\"jsandeford2@ihg.com\"},\r",
+									"      {\"date\":\"2020-06-19 12:31:32\",\"client_email\":\"nscales4@mayoclinic.com\"},\r",
+									"      {\"date\":\"2020-04-06 19:55:28\",\"client_email\":\"aanscombe5@shutterfly.com\"},\r",
+									"      {\"date\":\"2020-05-01 01:41:48\",\"client_email\":\"ktournie6@rambler.ru\"},\r",
+									"      {\"date\":\"2020-09-18 14:13:00\",\"client_email\":\"trookwell7@whitehouse.gov\"},\r",
+									"      {\"date\":\"2020-10-07 15:50:20\",\"client_email\":\"ppengilley8@umich.edu\"},\r",
+									"      {\"date\":\"2020-07-30 10:26:27\",\"client_email\":\"sdomerq9@cbsnews.com\"},\r",
+									"      {\"date\":\"2020-08-21 23:33:36\",\"client_email\":\"okernera@chronoengine.com\"},\r",
+									"      {\"date\":\"2020-05-28 10:02:30\",\"client_email\":\"e29@example.com\"}\r",
+									"    ];\r",
+									"\r",
+									"\r",
+									"    pm.environment.set(\"addOrdersCounter\", 0);\r",
+									"    pm.environment.set(\"mockOrders\", JSON.stringify(mockOrders));\r",
+									" }\r",
+									"\r",
+									"  // Reading/parsing environment variables back to local variables\r",
+									" let addOrdersCounter = pm.environment.get(\"addOrdersCounter\") / 1;\r",
+									" let mockOrders = JSON.parse(pm.environment.get(\"mockOrders\"));\r",
+									" let {date, client_email} = mockOrders[addOrdersCounter]\r",
+									" // Save to environemnt for use in query\r",
+									" pm.environment.set('date', date);\r",
+									" pm.environment.set('client_email', client_email);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "9db2e631-76c8-4f89-a3bb-2f723c974cf8",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let addOrdersCounter = pm.environment.get(\"addOrdersounter\") / 1;\r",
+									"let mockOrders = JSON.parse(pm.environment.get(\"mockOrders\"));\r",
+									"\r",
+									"// Add the insert id to the mockOrders and save to environment\r",
+									"mockOrders[addOrdersCounter].insertId = response.lastID;\r",
+									"pm.environment.set('mockOrders', JSON.stringify(mockOrders));\r",
+									"\r",
+									"console.log( JSON.parse(pm.environment.get(\"mockOrders\")));\r",
+									"// Test affectedRows\r",
+									"pm.test('affectedRows should be 1', function(){\r",
+									"    pm.expect(response.changes).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"addOrdersCounter++;\r",
+									"pm.environment.set('addOrdersCounter', addOrdersCounter);\r",
+									"\r",
+									"// Run request again if more mockOrders\r",
+									"\r",
+									"if(mockOrders[addOrdersCounter]){\r",
+									"    postman.setNextRequest('01-lägga-till-Orders')\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"{{date}}\",\r\n  \"client_email\": \"{{client_email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "13POST(orderlines)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9a26d899-413e-4a6c-b586-0f852edb59bc",
+								"exec": [
+									"if (!pm.environment.has(\"mockOrderlines\")) {\r",
+									"    let mockOrderlines = [\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"074844796-2\"},\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"934435720-X\"},\r",
+									"       {\"amount\":2,\"book_ISBN_nr\":\"794974666-1\"},\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"263877498-7\"},\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"021912223-7\"},\r",
+									"       {\"amount\":2,\"book_ISBN_nr\":\"221980226-8\"},\r",
+									"       {\"amount\":3,\"book_ISBN_nr\":\"231986886-2\"},\r",
+									"       {\"amount\":5,\"book_ISBN_nr\":\"24199882-6\"},\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"25197762-8\"},\r",
+									"       {\"amount\":1,\"book_ISBN_nr\":\"628267146-9\"}\r",
+									"    ];\r",
+									"\r",
+									"\r",
+									"    pm.environment.set(\"addOrderlinesCounter\", 0);\r",
+									"    pm.environment.set(\"mockOrderlines\", JSON.stringify(mockOrderlines));\r",
+									" }\r",
+									"\r",
+									"  // Reading/parsing environment variables back to local variables\r",
+									" let addOrderlinesCounter = pm.environment.get(\"addOrderlinesCounter\") / 1;\r",
+									" let mockOrderlines = JSON.parse(pm.environment.get(\"mockOrderlines\"));\r",
+									" let {amount, book_ISBN_nr} = mockOrderlines[addOrderlinesCounter]\r",
+									" // Save to environemnt for use in query\r",
+									" pm.environment.set('amount', amount);\r",
+									" pm.environment.set('book_ISBN_nr', book_ISBN_nr);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "2f1930a7-2361-4abf-98b0-75326229ffde",
+								"exec": [
+									"// The response as json\r",
+									" let response = pm.response.json();\r",
+									"\r",
+									"// Reading/parsing environment variables back to local variables\r",
+									"let addOrderlinesCounter = pm.environment.get(\"addOrderlinesCounter\") / 1;\r",
+									"let mockOrderlines = JSON.parse(pm.environment.get(\"mockOrderlines\"));\r",
+									"\r",
+									"// Add the insert id to the mockOrderlines and save to environment\r",
+									"mockOrderlines[addOrderlinesCounter].insertId = response.lastID;\r",
+									"pm.environment.set('mockOrderlines', JSON.stringify(mockOrderlines));\r",
+									"\r",
+									"console.log( JSON.parse(pm.environment.get(\"mockOrderlines\")));\r",
+									"// Test affectedRows\r",
+									"pm.test('affectedRows should be 1', function(){\r",
+									"    pm.expect(response.changes).to.equal(1);\r",
+									"});\r",
+									"\r",
+									"// Increment the counter and save to environment\r",
+									"addOrderlinesCounter++;\r",
+									"pm.environment.set('addOrderlinesCounter', addOrderlinesCounter);\r",
+									"\r",
+									"// Run request again if more mockOrderlines\r",
+									"\r",
+									"if(mockOrderlines[addOrderlinesCounter]){\r",
+									"    postman.setNextRequest('01-lägga-till-orderlines')\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"book_ISBN_nr\": \"{{book_ISBN_nr}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "16GET(orderlines)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/orderlines",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e24f284d-89d1-4c86-89b0-75d1a29a80d3",
+								"exec": [
+									"// The response as json\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test('total count must be 30', function(){\r",
+									"    pm.expect(response.length).to.equal(30);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": \"{{amount}}\",\n  \"book_ISBN_nr\": \"{{book_ISBN_nr}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orderlines"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "15GET(orders)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65eafac5-0690-442a-bb2d-226641f8ab43",
+								"exec": [
+									"// The response as json\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test('total count must be 36', function(){\r",
+									"    pm.expect(response.length).to.equal(36);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"date\": \"{{date}}\",\r\n  \"client_email\": \"{{client_email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/orders"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "14GET(clients)",
+			"item": [
+				{
+					"name": "http://localhost:3000/api/clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f83394c9-7223-4448-9aff-d237906cf6b1",
+								"exec": [
+									"// The response as json\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test('total count must be 36', function(){\r",
+									"    pm.expect(response.length).to.equal(36);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:3000/api/clients"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
