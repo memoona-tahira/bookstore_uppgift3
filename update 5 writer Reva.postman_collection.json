@@ -1,0 +1,135 @@
+{
+	"info": {
+		"_postman_id": "3628c556-2ade-4d68-ab54-608727808548",
+		"name": "update 5 writer Reva",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Update_Writers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "43d3b936-1b2e-411d-9b30-d463afe89108",
+						"exec": [
+							"let harResponse = pm.environment.has('writers');\r",
+							"\r",
+							"if (!pm.environment.has('writers')) {\r",
+							"\r",
+							"pm.sendRequest(\"http://localhost:3000/api/writers\", function (err, response) {\r",
+							"    // Get all writers from database and save it to environment variable\r",
+							"    pm.environment.set('writers', JSON.stringify(response.json()));\r",
+							"    pm.environment.set('counter', 0);\r",
+							"\r",
+							"    // Reading/parsing environment variables back to local variables\r",
+							" let counter = pm.environment.get(\"counter\");\r",
+							" let writersData = JSON.parse(pm.environment.get('writers'));\r",
+							"\r",
+							" let {id, name, description} = writersData[counter];\r",
+							"\r",
+							" // Save to environment variables to use in the request\r",
+							" pm.environment.set('name', name + \" updated\");\r",
+							" pm.environment.set('writerId', id);\r",
+							"\r",
+							" harResponse = true;\r",
+							"})\r",
+							"}\r",
+							"if(harResponse){\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							" let counter = pm.environment.get(\"counter\");\r",
+							" let writersData = JSON.parse(pm.environment.get('writers'));\r",
+							"\r",
+							" let {id, name, description} = writersData[counter];\r",
+							"\r",
+							" // Save to environment variables to use in the request\r",
+							" pm.environment.set('name', name + \" updated\");\r",
+							" pm.environment.set('writerId', id);\r",
+							"\r",
+							"}\r",
+							"\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a8ed8e6-40f8-46ff-8533-249e5a0ab66c",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// Test number of changed rows\r",
+							"pm.test('One row should be updated', function(){\r",
+							"    pm.expect(response.changes).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"// Check that view books_and_writers is updated with new writer name\r",
+							"let writerId = pm.environment.get(\"writerId\")\r",
+							"pm.sendRequest(\"http://localhost:3000/api/booksXwriters/?writer_id=\"+writerId, function (err, result) {\r",
+							"  if(result.json().length){\r",
+							"    pm.test('Writer name should be updated in books_and_writers view', function(){\r",
+							"        let name = pm.environment.get(\"name\");\r",
+							"        let url = \"http://localhost:3000/api/books_and_writers/?authors=\" + name;\r",
+							"        pm.sendRequest(url, function (err, response) {\r",
+							"        pm.expect(response.json().length).not.to.equal(0);\r",
+							"        });\r",
+							"    });\r",
+							"  }\r",
+							"});\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\");\r",
+							"let writers = JSON.parse(pm.environment.get(\"writers\"));\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// Run request again if more writers\r",
+							"if(writers[counter]){\r",
+							"    postman.setNextRequest('Update_Writers');\r",
+							"}\r",
+							"// Otherwise reset the counter\r",
+							"// (for the next request that will reuse the mockdata)\r",
+							"else {\r",
+							"  pm.environment.set(\"counter\", 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{writerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{writerId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
