@@ -1,0 +1,49 @@
+{
+	"id": "bdd64dff-58be-4709-80b0-193d61af4ef8",
+	"name": "Cao",
+	"timestamp": "2020-06-06T23:36:05.558Z",
+	"collection_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+	"folder_id": 0,
+	"environment_id": "f3a7828d-9f34-4df7-85f5-416f8132274c",
+	"totalPass": 1,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "fe6b8db8-57dc-449c-8130-92d6f0380978",
+			"name": "35 remove orderlines(http://localhost:3000/api/orderlines/{{orderline_id}}",
+			"url": "http://localhost:3000/api/orderlines/36",
+			"time": 15,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"affectedRows should be 1": true
+			},
+			"testPassFailCounts": {
+				"affectedRows should be 1": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15
+			],
+			"allTests": [
+				{
+					"affectedRows should be 1": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 15,
+	"collection": {
+		"requests": [
+			{
+				"id": "fe6b8db8-57dc-449c-8130-92d6f0380978",
+				"method": "DELETE"
+			}
+		]
+	}
+}

@@ -1,0 +1,49 @@
+{
+	"id": "7a14e05a-800f-4635-94f4-a9303392f36f",
+	"name": "Cao",
+	"timestamp": "2020-06-06T23:06:52.960Z",
+	"collection_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+	"folder_id": 0,
+	"environment_id": "f3a7828d-9f34-4df7-85f5-416f8132274c",
+	"totalPass": 1,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "e3ae4a03-392d-44c2-b0c6-8692157fa12a",
+			"name": "14 read updated clients(http://localhost:3000/api/clients/{{clientId}}",
+			"url": "http://localhost:3000/api/clients/1",
+			"time": 55,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"total amount must be 1 after updation": true
+			},
+			"testPassFailCounts": {
+				"total amount must be 1 after updation": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				55
+			],
+			"allTests": [
+				{
+					"total amount must be 1 after updation": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 55,
+	"collection": {
+		"requests": [
+			{
+				"id": "e3ae4a03-392d-44c2-b0c6-8692157fa12a",
+				"method": "GET"
+			}
+		]
+	}
+}

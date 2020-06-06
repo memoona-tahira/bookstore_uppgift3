@@ -1,0 +1,21 @@
+{
+	"id": "1f1747e9-e06f-42e7-9908-347e9d634f23",
+	"name": "Cao",
+	"timestamp": "2020-06-06T23:07:42.981Z",
+	"collection_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+	"folder_id": 0,
+	"environment_id": "f3a7828d-9f34-4df7-85f5-416f8132274c",
+	"totalPass": 0,
+	"totalFail": 0,
+	"results": [],
+	"count": 1,
+	"totalTime": 0,
+	"collection": {
+		"requests": [
+			{
+				"id": "0a8dc74a-7e7f-4c03-b798-0267775da5d8",
+				"method": "DELETE"
+			}
+		]
+	}
+}

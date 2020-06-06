@@ -1,0 +1,40 @@
+{
+	"id": "6901af32-424f-4d2c-9bbd-5645ac72126f",
+	"name": "Cao",
+	"timestamp": "2020-06-06T23:10:46.750Z",
+	"collection_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+	"folder_id": 0,
+	"environment_id": "f3a7828d-9f34-4df7-85f5-416f8132274c",
+	"totalPass": 0,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "38591877-79f9-40f0-a572-90a3110fe3d4",
+			"name": "21 create orders(http://localhost:3000/api/orders)",
+			"url": "http://localhost:3000/api/orders",
+			"time": 43,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				43
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 43,
+	"collection": {
+		"requests": [
+			{
+				"id": "38591877-79f9-40f0-a572-90a3110fe3d4",
+				"method": "POST"
+			}
+		]
+	}
+}

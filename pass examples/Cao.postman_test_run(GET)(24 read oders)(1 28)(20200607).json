@@ -1,0 +1,49 @@
+{
+	"id": "60fd57e8-2fd0-44c2-8a4d-c7bdda215992",
+	"name": "Cao",
+	"timestamp": "2020-06-06T23:28:30.172Z",
+	"collection_id": "a09d50eb-ebf7-4d2c-bcc1-6b61214a4ccd",
+	"folder_id": 0,
+	"environment_id": "f3a7828d-9f34-4df7-85f5-416f8132274c",
+	"totalPass": 1,
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "8cba7bb0-ee3e-4424-8df2-a936bd89cc6d",
+			"name": "23 update orders(http://localhost:3000/api/orders/{{orderId}})",
+			"url": "http://localhost:3000/api/orders/1",
+			"time": 39,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"One row should be updated": true
+			},
+			"testPassFailCounts": {
+				"One row should be updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				39
+			],
+			"allTests": [
+				{
+					"One row should be updated": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 39,
+	"collection": {
+		"requests": [
+			{
+				"id": "8cba7bb0-ee3e-4424-8df2-a936bd89cc6d",
+				"method": "PUT"
+			}
+		]
+	}
+}
