@@ -1,0 +1,572 @@
+{
+	"info": {
+		"_postman_id": "5567a55c-f4ea-47dd-ab4f-c82fea5fe120",
+		"name": "Reva",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create_5_Writers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d16dd905-701b-4a59-87eb-54ad143a030e",
+						"exec": [
+							"if (!pm.environment.has('createdWriters')) {\r",
+							"    let writersData = [\r",
+							"      {\r",
+							"        'name': 'Erik Nellson',\r",
+							"        'description': 'Absintinbiten glädjespridare.'\r",
+							"      },\r",
+							"      {\r",
+							"        \"name\": \"Thomas sundbegr\",\r",
+							"        \"description\": \"Känd barnboksförfattare från Sverige.\"\r",
+							"      },\r",
+							"      {\r",
+							"        \"name\": \"Emmila Åsa\",\r",
+							"        \"description\": \"Samhällskritisk skrönikör.\"\r",
+							"      },\r",
+							"      {\r",
+							"        \"name\": \"Jemmy Jonasson\",\r",
+							"        \"description\": \"Världens bästa writers.\"\r",
+							"      },\r",
+							"      {\r",
+							"       \"name\": \"Babilon Lindgren\",\r",
+							"       \"description\": \"Känd barnboksförfattare från Danemark.\"\r",
+							"      }\r",
+							"    ];\r",
+							"    pm.environment.set('counter', 0);\r",
+							"    pm.environment.set('createdWriters', JSON.stringify(writersData));\r",
+							" }\r",
+							"\r",
+							" // Reading/parsing environment variables back to local variables\r",
+							" let counter = pm.environment.get('counter') / 1;\r",
+							" let createdWriters = JSON.parse(pm.environment.get('createdWriters'));\r",
+							" let {name, description} = createdWriters[counter];\r",
+							"\r",
+							" // Save to environment variables to use in the request\r",
+							" pm.environment.set('name', name);\r",
+							" pm.environment.set('description', description);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "66b80817-1fd8-48fb-8a69-23d80a2871f1",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\") / 1;\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"\r",
+							"// Add the inserted id to the mockData and save to environment\r",
+							"createdWriters[counter].id = response.lastID;\r",
+							"pm.environment.set('createdWriters', JSON.stringify(createdWriters));\r",
+							"\r",
+							"// Test number of changed rows\r",
+							"pm.test('one row should be changed', function(){\r",
+							"    pm.expect(response.changes).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// Run request again if more mockdata\r",
+							"if(createdWriters[counter]){\r",
+							"    postman.setNextRequest('Create_5_Writers');\r",
+							"}\r",
+							"// Otherwise reset the counter\r",
+							"// (for the next request that will reuse the mockdata)\r",
+							"else {\r",
+							"  pm.environment.set(\"counter\", 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"{{name}}\",\r\n  \"description\": \"{{description}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read_Writer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "575cf1d6-fda3-4059-8402-94a04a6ea5ae",
+						"exec": [
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\") / 1;\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"let {id} = createdWriters[counter];\r",
+							"\r",
+							"// Save to environment variable to use in the request\r",
+							"pm.environment.set('id', id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b50333f-7f9f-4cf3-99b2-b01a8740aaeb",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\") / 1;\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"\r",
+							"// Compare with the response from the database;\r",
+							" pm.test('data in db should equal previously written createdWriters', function(){\r",
+							"     pm.expect(response, counter + ' used').to.deep.equal([createdWriters[counter]]);\r",
+							"});\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// Run request again if more createdWriters\r",
+							"if(createdWriters[counter]){\r",
+							"    postman.setNextRequest('Read_Writer');\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Writers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3c6d2859-50d6-4e8c-83c5-d43e141db7f5",
+						"exec": [
+							"let harResponse = pm.environment.has('writers');\r",
+							"\r",
+							"if (!pm.environment.has('writers')) {\r",
+							"\r",
+							"pm.sendRequest(\"http://localhost:3000/api/writers\", function (err, response) {\r",
+							"    // Get all writers from database and save it to environment variable\r",
+							"    let databaseWriters = response.json();\r",
+							"    databaseWriters.forEach(c => c.name = c.name + \" 1\");\r",
+							"    pm.environment.set('writers', JSON.stringify(databaseWriters));\r",
+							"    pm.environment.set('counter', 0);\r",
+							"\r",
+							"    // Reading/parsing environment variables back to local variables\r",
+							" let counter = pm.environment.get(\"counter\");\r",
+							" let writersData = JSON.parse(pm.environment.get('writers'));\r",
+							"\r",
+							" let {id, name, description} = writersData[counter];\r",
+							" // Save to environment variables to use in the request\r",
+							" console.log(name);\r",
+							" pm.environment.set('name', name);\r",
+							" pm.environment.set('writerId', id);\r",
+							"\r",
+							" harResponse = true;\r",
+							"})\r",
+							"}\r",
+							"if(harResponse){\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							" let counter = pm.environment.get(\"counter\");\r",
+							" let writersData = JSON.parse(pm.environment.get('writers'));\r",
+							"\r",
+							" let {id, name, description} = writersData[counter];\r",
+							"\r",
+							" // Save to environment variables to use in the request\r",
+							" pm.environment.set('name', name);\r",
+							" pm.environment.set('writerId', id);\r",
+							"\r",
+							"}\r",
+							"\r",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "82e3f83d-c3f1-4c85-ab40-a5b8ff90f02f",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"// Test number of changed rows\r",
+							"pm.test('One row should be updated', function(){\r",
+							"    pm.expect(response.changes).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"// Check that view books_and_writers is updated with new writer name\r",
+							"let writerId = pm.environment.get(\"writerId\")\r",
+							"pm.sendRequest(\"http://localhost:3000/api/booksXwriters/?writer_id=\"+writerId, function (err, result) {\r",
+							"  if(result.json().length){\r",
+							"    pm.test('Writer name should be updated in books_and_writers view', function(){\r",
+							"        let name = pm.environment.get(\"name\");\r",
+							"        let url = \"http://localhost:3000/api/books_and_writers/?authors=\" + name;\r",
+							"        pm.sendRequest(url, function (err, response) {\r",
+							"        pm.expect(response.json().length).not.to.equal(0);\r",
+							"        });\r",
+							"    });\r",
+							"  }\r",
+							"});\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\");\r",
+							"let writers = JSON.parse(pm.environment.get(\"writers\"));\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"// Run request again if more writers\r",
+							"if(writers[counter]){\r",
+							"    postman.setNextRequest('Update_Writers');\r",
+							"}\r",
+							"// Otherwise reset the counter\r",
+							"// (for the next request that will reuse the mockdata)\r",
+							"else {\r",
+							"  pm.environment.set(\"counter\", 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"{{name}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{writerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{writerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read_Updated_Writer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "44c1a48a-6232-4344-8874-ff2f50ebae41",
+						"exec": [
+							"// Reading/parsing environment variables back to local variables\r",
+							"if (!pm.environment.has('counter1')) {\r",
+							"    pm.environment.set('counter1', 0);\r",
+							"}\r",
+							"let counter = pm.environment.get(\"counter1\");\r",
+							"let updatedWriters = JSON.parse(pm.environment.get(\"writers\"));\r",
+							"let {id} = updatedWriters[counter];\r",
+							"\r",
+							"// Save to environment variable to use in the request\r",
+							"pm.environment.set('updatedWriterId', id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "653b8832-eae7-4092-8b81-d263bbb66d23",
+						"exec": [
+							"// The response\r",
+							"// let response = pm.response.json();\r",
+							"let response = JSON.parse(JSON.stringify(pm.response.json()))\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter1\") / 1;\r",
+							"let updatedWriters = JSON.parse(pm.environment.get(\"writers\"));\r",
+							"\r",
+							"\r",
+							"// Compare with the response from the database;\r",
+							"pm.test('data in db should equal previously written updatedWriters', function(){\r",
+							"     pm.expect(response[0]).to.deep.equal(updatedWriters[counter]);\r",
+							"});\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter1', counter);\r",
+							"\r",
+							"// Run request again if more updatedWriters\r",
+							"if(updatedWriters[counter]){\r",
+							"    postman.setNextRequest('Read_Updated_Writer');\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{updatedWriterId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{updatedWriterId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove_Writers",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "64d77f6c-1503-4972-baa7-6263e62b56ed",
+						"exec": [
+							"\r",
+							"if(!pm.environment.has('counter')) {\r",
+							" pm.environment.set('counter', 0);\r",
+							"}\r",
+							"\r",
+							"let counter = pm.environment.get(\"counter\");\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"\r",
+							"pm.environment.set('writerId', createdWriters[counter].id);   "
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "190e0d42-daf7-41d6-8b12-c6abd5c1303a",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"console.log('response: ', response);\r",
+							"\r",
+							"// Reading/parsing environment variables back to local variables\r",
+							"let counter = pm.environment.get(\"counter\") / 1;\r",
+							"let createdWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"\r",
+							"// Test number of changed rows\r",
+							"pm.test('one row should be removed', function(){\r",
+							"    pm.expect(response.changes).to.equal(1);\r",
+							"});\r",
+							"\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter', counter);\r",
+							"\r",
+							"if(createdWriters[counter]){\r",
+							"    postman.setNextRequest('Remove_Writers');\r",
+							"}\r",
+							"else {\r",
+							"  pm.environment.set(\"counter\", 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{writerId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{writerId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read_Removed_Writer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c08f44db-3261-445a-88e5-d6fc39735eee",
+						"exec": [
+							"if (!pm.environment.has('counter2')) {\r",
+							"    pm.environment.set('counter2', 0);\r",
+							"}\r",
+							"let counter = pm.environment.get(\"counter2\");\r",
+							"let deletedWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"let {id} = deletedWriters[counter];\r",
+							"\r",
+							"// Save to environment variable to use in the request\r",
+							"pm.environment.set('deletedWriterId', id);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd6e782b-9b56-4183-a457-1a52f580e807",
+						"exec": [
+							"// The response\r",
+							"let response = pm.response.json();\r",
+							"\r",
+							"pm.test('total count must be 0 after delete writer', function(){\r",
+							"    pm.expect(response.length).to.equal(0);\r",
+							"});\r",
+							"\r",
+							"let counter = pm.environment.get(\"counter2\");\r",
+							"let deletedWriters = JSON.parse(pm.environment.get(\"createdWriters\"));\r",
+							"// Increment the counter and save to environment\r",
+							"counter++;\r",
+							"pm.environment.set('counter2', counter);\r",
+							"\r",
+							"if(deletedWriters[counter]){\r",
+							"    postman.setNextRequest('Read_Removed_Writer');\r",
+							"}\r",
+							"else {\r",
+							"  pm.environment.set(\"counter2\", 0);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/writers/{{deletedWriterId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"writers",
+						"{{deletedWriterId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
